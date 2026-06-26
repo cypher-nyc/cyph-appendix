@@ -72,6 +72,15 @@
     if (root) root.scrollTop = 0; // each drilldown opens at its top
     render();
   }
+  function goByChapter(name) {
+    for (var i = 0; i < dd.length; i++) {
+      if ((dd[i].getAttribute("data-chapter") || "") === name) {
+        go(i);
+        return true;
+      }
+    }
+    return false;
+  }
   function next() {
     go(cur + 1);
   }
@@ -98,6 +107,14 @@
     var n = document.getElementById("apx-next");
     if (p) p.addEventListener("click", prev);
     if (n) n.addEventListener("click", next);
+
+    // any element with [data-goto="chapter name"] jumps to that drilldown
+    root.addEventListener("click", function (e) {
+      var el = e.target.closest("[data-goto]");
+      if (!el) return;
+      e.preventDefault();
+      goByChapter(el.getAttribute("data-goto"));
+    });
   }
 
   function mount() {

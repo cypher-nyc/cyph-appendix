@@ -12,7 +12,14 @@
   <body>
     <!-- top HUD: paprika bar, deck chrome (hidden until authed) -->
     <header class="apx-hud" aria-hidden="true">
-      <span class="apx-logo">cyph<span class="dot">.appendix</span></span>
+      <span class="apx-logo">
+        <span class="station-bullets" style="margin: 0; gap: 4px">
+          <span class="station-bullet paprika">C</span
+          ><span class="station-bullet cornflower">Y</span
+          ><span class="station-bullet amber">P</span
+          ><span class="station-bullet amaranth">H</span>
+        </span>
+      </span>
       <nav id="apx-tabs" class="apx-tabs" aria-label="drilldowns"></nav>
     </header>
     <div class="apx-progress" aria-hidden="true">
@@ -42,10 +49,6 @@
             ><span class="station-bullet amaranth">H</span>
           </div>
         </div>
-        <p class="auth-note">
-          encrypted internal material. the password decrypts the content in
-          your browser — nothing is readable without it.
-        </p>
         <form id="auth-form" autocomplete="off">
           <input
             id="auth-input"

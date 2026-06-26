@@ -80,13 +80,14 @@ body.authed .apx-progress {
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 .apx-logo {
-  font-weight: 700;
-  font-size: 22px;
-  color: var(--cream);
+  display: flex;
+  align-items: center;
   flex-shrink: 0;
 }
-.apx-logo .dot {
-  opacity: 0.55;
+.apx-logo .station-bullet {
+  width: 26px;
+  height: 26px;
+  font-size: 14px;
 }
 .apx-tabs {
   display: flex;
@@ -364,11 +365,25 @@ body.authed .apx-progress {
   margin: 28px 0;
 }
 .spec-card {
+  display: block;
   background: var(--panel);
   border: 1px solid var(--line);
   border-top: 3px solid var(--cornflower);
   border-radius: 10px;
   padding: 18px 20px;
+}
+/* clickable cards (rendered as <a data-goto>) */
+a.spec-card {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.18s var(--ease-smooth), border-color 0.18s,
+    background 0.18s;
+}
+a.spec-card:hover {
+  transform: translateY(-3px);
+  background: #14171c;
+  border-color: var(--faint);
 }
 .spec-card.paprika {
   border-top-color: var(--paprika);
@@ -382,13 +397,397 @@ body.authed .apx-progress {
 .spec-card.cornflower {
   border-top-color: var(--cornflower);
 }
+.spec-card.cream {
+  border-top-color: var(--cream);
+}
 .spec-card h3 {
-  margin: 0 0 6px;
+  margin: 0;
+}
+.spec-card h3 + p {
+  margin-top: 6px;
 }
 .spec-card p {
   font-size: 15px;
   color: var(--muted);
   margin: 0;
+}
+
+/* ─── layer-stack visualization (architecture strata + small notes) ─── */
+.layerstack {
+  margin: 30px 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.layer {
+  display: grid;
+  grid-template-columns: 156px 1fr;
+  border-top: 1px solid var(--line);
+}
+.layer:first-child {
+  border-top: none;
+}
+.layer-rail {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #fff;
+}
+.layer.paprika .layer-rail {
+  background: var(--paprika);
+}
+.layer.cornflower .layer-rail {
+  background: var(--cornflower);
+}
+.layer.amber .layer-rail {
+  background: var(--amber);
+  color: var(--ink);
+}
+.layer.amaranth .layer-rail {
+  background: var(--amaranth);
+}
+.layer.cream .layer-rail {
+  background: var(--cream);
+  color: var(--ink);
+}
+.layer.cream .note::before {
+  background: var(--cream);
+}
+.layer-num {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  opacity: 0.8;
+}
+.layer-kind {
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: lowercase;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+.layer-body {
+  padding: 20px 24px;
+  background: var(--panel);
+}
+.layer-body h3 {
+  margin: 0 0 4px;
+}
+.layer-essence {
+  color: var(--muted);
+  font-size: 15px;
+  margin: 0 0 14px;
+}
+.notes {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.note {
+  position: relative;
+  padding-left: 18px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--cream);
+}
+.note::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--faint);
+}
+.layer.paprika .note::before {
+  background: var(--paprika);
+}
+.layer.cornflower .note::before {
+  background: var(--cornflower);
+}
+.layer.amber .note::before {
+  background: var(--amber);
+}
+.layer.amaranth .note::before {
+  background: var(--amaranth);
+}
+
+/* ─── cost comparison (ours vs third-party, proportional bars) ─── */
+.compare {
+  margin: 22px 0 6px;
+}
+.compare-headline {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+.compare-x {
+  font-size: clamp(44px, 7vw, 64px);
+  font-weight: 700;
+  color: var(--paprika);
+  letter-spacing: -0.03em;
+  line-height: 0.9;
+}
+.compare-cap {
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--cream);
+  max-width: 300px;
+}
+.cmp-row {
+  display: grid;
+  grid-template-columns: 150px 1fr 104px 78px;
+  align-items: center;
+  gap: 16px;
+  margin: 12px 0;
+}
+.cmp-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--cream);
+  text-align: right;
+  line-height: 1.15;
+}
+.cmp-label span {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--faint);
+  margin-top: 2px;
+}
+.cmp-row.ours .cmp-label {
+  color: var(--paprika);
+}
+.cmp-mult {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  text-align: right;
+  white-space: nowrap;
+}
+.cmp-row.ours .cmp-mult {
+  color: var(--paprika);
+}
+.cmp-track {
+  height: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.cmp-bar {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.6s var(--ease-smooth);
+}
+.cmp-row.cornflower .cmp-bar {
+  background: var(--cornflower);
+}
+.cmp-row.amaranth .cmp-bar {
+  background: var(--amaranth);
+}
+.cmp-row.paprika .cmp-bar {
+  background: var(--paprika);
+}
+.cmp-val {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--cream);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.cmp-row.ours .cmp-val {
+  color: var(--paprika);
+}
+.cmp-val span {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.compare-foot {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 720px) {
+  .cmp-row {
+    grid-template-columns: 84px 1fr 76px 56px;
+    gap: 9px;
+  }
+  .cmp-label {
+    font-size: 12px;
+  }
+  .cmp-label span {
+    display: none;
+  }
+  .cmp-val,
+  .cmp-mult {
+    font-size: 12px;
+  }
+}
+
+/* ─── economics section (etched into the page, no box) ─── */
+.econ {
+  margin: 50px 0 0;
+  padding-top: 34px;
+  border-top: 1px solid var(--line);
+}
+.econ h3 {
+  font-size: 22px;
+  margin: 0 0 4px;
+}
+.econ .layer-essence {
+  margin-bottom: 22px;
+}
+.econ .note::before {
+  background: var(--amber);
+}
+.metrics {
+  display: flex;
+  gap: 36px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.metric .num {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--amber);
+  letter-spacing: -0.01em;
+}
+.metric .lbl {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+@media (max-width: 720px) {
+  .layer {
+    grid-template-columns: 112px 1fr;
+  }
+  .layer-body {
+    padding: 16px 16px;
+  }
+}
+
+/* ─── flow (left-to-right pipeline with an approval gate) ─── */
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 10px;
+  margin: 28px 0;
+}
+.flow-step {
+  flex: 1 1 150px;
+  min-width: 140px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.flow-step .s-k {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+.flow-step .s-t {
+  font-weight: 700;
+  font-size: 15px;
+  margin-top: 5px;
+  line-height: 1.2;
+}
+.flow-step .s-d {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 5px;
+  line-height: 1.45;
+}
+.flow-step.gate {
+  border-color: var(--paprika);
+  border-left: 3px solid var(--paprika);
+}
+.flow-step.gate .s-k {
+  color: var(--paprika);
+}
+.flow-step.live {
+  border-left: 3px solid var(--amber);
+}
+.flow-arrow {
+  align-self: center;
+  color: var(--faint);
+  font-size: 18px;
+  flex: 0 0 auto;
+}
+@media (max-width: 720px) {
+  .flow {
+    flex-direction: column;
+  }
+  .flow-arrow {
+    transform: rotate(90deg);
+  }
+}
+
+/* ─── contrast (two-column "was vs now" comparison) ─── */
+.contrast {
+  margin: 28px 0;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.contrast-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.contrast-row + .contrast-row {
+  border-top: 1px solid var(--line);
+}
+.contrast-cell {
+  padding: 16px 20px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.contrast-cell.was {
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.015);
+  border-right: 1px solid var(--line);
+}
+.contrast-cell.now {
+  color: var(--cream);
+}
+.contrast-cell.now strong {
+  color: var(--paprika);
+}
+.contrast-head .contrast-cell {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+}
+.contrast-head .contrast-cell.was {
+  color: var(--faint);
+}
+.contrast-head .contrast-cell.now {
+  color: var(--paprika);
+}
+@media (max-width: 720px) {
+  .contrast-row {
+    grid-template-columns: 1fr;
+  }
+  .contrast-cell.was {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
 }
 
 /* ─── callout (crisis-style dark card with colored left border) ─── */
