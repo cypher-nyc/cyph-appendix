@@ -364,6 +364,11 @@ body.authed .apx-progress {
   gap: 16px;
   margin: 28px 0;
 }
+.spec-card.centered {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(100%, 320px);
+}
 .spec-card {
   display: block;
   background: var(--panel);
