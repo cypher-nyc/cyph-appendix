@@ -6,27 +6,29 @@
     <meta name="robots" content="noindex, nofollow" />
     <title>cyph · appendix</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <!-- running chrome (hidden until authed) -->
-    <header class="apx-bar" aria-hidden="true">
-      <span class="apx-brand">cyph<span class="dot">.</span>appendix</span>
-      <span id="apx-chapter" class="apx-chapter"></span>
-      <span id="apx-ctr" class="apx-ctr">00 / 00</span>
+    <!-- top HUD: paprika bar, deck chrome (hidden until authed) -->
+    <header class="apx-hud" aria-hidden="true">
+      <span class="apx-logo">cyph<span class="dot">.appendix</span></span>
+      <nav id="apx-tabs" class="apx-tabs" aria-label="drilldowns"></nav>
     </header>
-
     <div class="apx-progress" aria-hidden="true">
       <div id="apx-progress-fill" class="apx-progress-fill"></div>
     </div>
 
-    <!-- decrypted slides are injected here -->
+    <!-- decrypted whitepaper drilldowns are injected here -->
     <main id="deck-root"></main>
 
-    <nav class="apx-nav" aria-hidden="true">
-      <button id="apx-prev" aria-label="previous">←</button>
-      <button id="apx-next" aria-label="next">→</button>
-    </nav>
+    <!-- bottom HUD: prev / title / counter / next -->
+    <footer class="apx-foot" aria-hidden="true">
+      <button id="apx-prev" aria-label="previous drilldown">←</button>
+      <span id="apx-title" class="apx-title"></span>
+      <span id="apx-counter" class="apx-counter">00 / 00</span>
+      <button id="apx-next" aria-label="next drilldown">→</button>
+    </footer>
 
     <!-- password gate -->
     <div id="auth-gate" aria-label="access gate">

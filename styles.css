@@ -1,8 +1,11 @@
 /* ═══ cyph-appendix — styles ═══
-   Dark register, matching the deck's palette + Helvetica Neue, tuned for
-   dense technical content: code blocks, tables, spec cards, diagrams. */
+   cyph-deck look & feel (paprika HUD bars, dark register, cream text, Helvetica
+   Neue, station-sign chrome, brand palette, "content on black / no grey boxes")
+   — but the stage is a tall, scrolling WHITEPAPER column, not a 16:9 slide.
+   Each drilldown flows to its natural height; content is never compacted. */
 
 :root {
+  /* deck palette (verbatim from cyph-deck) */
   --paprika: #ec4e20;
   --cornflower: #608fe6;
   --deepspace: #13293d;
@@ -11,27 +14,32 @@
 
   --cream: #ede8de;
   --cream-light: #f5f0e6;
+  --cream-dark: #e5dfd4;
   --muted: #a8a8a8;
   --faint: #6b6b6b;
-  --bg: #08090b;
+
+  --ink: #0e0e10; /* station-sign / placards */
+  --bg: #000;
   --panel: #101216;
   --line: #23262c;
 
+  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --mono: "SF Mono", "JetBrains Mono", "Fira Code", ui-monospace, Menlo,
     Consolas, monospace;
-  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --paper: 900px; /* whitepaper reading width */
+  --hud: 48px;
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
   box-sizing: border-box;
 }
-
 html,
 body {
   margin: 0;
   height: 100%;
 }
-
 body {
   background: var(--bg);
   color: var(--cream);
@@ -40,168 +48,266 @@ body {
   overflow: hidden;
 }
 
-/* ─── running chrome ─── */
-.apx-bar,
-.apx-nav,
+/* ═══ deck chrome: paprika HUD bars (hidden until authed) ═══ */
+.apx-hud,
+.apx-foot,
 .apx-progress {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
 }
-body.authed .apx-bar,
-body.authed .apx-nav,
+body.authed .apx-hud,
+body.authed .apx-foot,
 body.authed .apx-progress {
   opacity: 1;
   pointer-events: auto;
 }
 
-.apx-bar {
+.apx-hud {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 48px;
+  height: var(--hud);
+  z-index: 100;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 18px;
   padding: 0 24px;
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  z-index: 30;
-  background: linear-gradient(to bottom, rgba(8, 9, 11, 0.95), transparent);
+  background: var(--paprika);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
-.apx-brand {
+.apx-logo {
   font-weight: 700;
+  font-size: 22px;
+  color: var(--cream);
+  flex-shrink: 0;
 }
-.apx-brand .dot {
-  color: var(--paprika);
+.apx-logo .dot {
+  opacity: 0.55;
 }
-.apx-chapter {
-  color: var(--muted);
-  text-transform: lowercase;
+.apx-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
   flex: 1;
 }
-.apx-ctr {
-  color: var(--faint);
-  font-family: var(--mono);
-  font-size: 12px;
+.apx-tabs::-webkit-scrollbar {
+  display: none;
+}
+.apx-tab {
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 6px 4px;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 11px;
+  text-transform: lowercase;
+  color: rgba(255, 255, 255, 0.4);
+  background: none;
+  border: none;
+  border-bottom: 1.5px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+}
+.apx-tab:hover {
+  color: rgba(255, 255, 255, 0.75);
+}
+.apx-tab.active {
+  color: #fff;
+  font-weight: 500;
+  border-bottom-color: #fff;
+}
+.apx-tab-sep {
+  color: rgba(255, 255, 255, 0.18);
+  font-weight: 300;
+  font-size: 11px;
+  padding: 0 8px;
 }
 
 .apx-progress {
   position: fixed;
-  top: 0;
+  top: var(--hud);
   left: 0;
   right: 0;
   height: 2px;
-  background: var(--line);
-  z-index: 31;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 101;
 }
 .apx-progress-fill {
   height: 100%;
   width: 0;
-  background: var(--paprika);
-  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #fff;
+  opacity: 0.85;
+  transition: width 0.45s var(--ease-smooth);
 }
 
-.apx-nav {
+.apx-foot {
   position: fixed;
-  bottom: 20px;
-  right: 24px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--hud);
+  z-index: 100;
   display: flex;
-  gap: 8px;
-  z-index: 30;
+  align-items: center;
+  gap: 18px;
+  padding: 0 24px;
+  background: var(--paprika);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
-.apx-nav button {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  color: var(--cream);
-  font-size: 16px;
+.apx-foot button {
+  background: none;
+  border: none;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
+  font-family: var(--sans);
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
 }
-.apx-nav button:hover {
-  border-color: var(--paprika);
-  background: #181b20;
+.apx-foot button:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+.apx-title {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #fff;
+  text-transform: lowercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.apx-counter {
+  font-weight: 600;
+  font-size: 12px;
+  color: #fff;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
 }
 
-/* ─── slides ─── */
+/* ═══ the whitepaper stage ═══ */
 #deck-root {
   position: fixed;
-  inset: 0;
-}
-.slide {
-  position: absolute;
-  inset: 0;
-  padding: 84px 8vw 72px;
+  top: var(--hud);
+  bottom: var(--hud);
+  left: 0;
+  right: 0;
   overflow-y: auto;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(12px);
-  transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s;
-}
-.slide.active {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
+  background:
+    radial-gradient(circle at 50% 0%, #0c0d10, #000 60%);
+  scroll-behavior: smooth;
 }
 
-/* generous reading column for dense technical prose */
-.slide > * {
-  max-width: 1100px;
+/* a drilldown = one whitepaper document. Only the active one shows; it flows
+   to its natural height (never capped → content is never compacted). */
+.drilldown {
+  display: none;
+  max-width: var(--paper);
+  margin: 0 auto;
+  padding: 64px clamp(24px, 6vw, 72px) 140px;
+}
+.drilldown.active {
+  display: block;
+  animation: apxIn 0.4s ease;
+}
+@keyframes apxIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
-.slide h1 {
-  font-size: clamp(32px, 5vw, 64px);
-  line-height: 1.04;
+/* ─── whitepaper masthead (newspaper rule, like the deck's left-headers) ─── */
+.drilldown > .kicker {
+  font-family: var(--sans);
+  font-size: 12px;
   font-weight: 700;
-  margin: 0 0 24px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--paprika);
+  margin: 0 0 14px;
+}
+.drilldown h1 {
+  font-size: clamp(34px, 5vw, 60px);
+  line-height: 1.05;
+  font-weight: 700;
   letter-spacing: -0.02em;
+  margin: 0 0 18px;
 }
-.slide h2 {
-  font-size: clamp(24px, 3vw, 38px);
-  font-weight: 700;
-  margin: 0 0 8px;
-  letter-spacing: -0.01em;
+.drilldown h1 + .lede {
+  border-top: 1px solid var(--line);
+  padding-top: 22px;
+  margin-top: 22px;
 }
-.slide h3 {
-  font-size: 18px;
-  font-weight: 700;
-  margin: 28px 0 8px;
-  color: var(--cream-light);
-}
-.slide p,
-.slide li {
-  font-size: 17px;
-  line-height: 1.6;
-  color: var(--cream);
-}
-.slide .lede {
-  font-size: 20px;
+.lede {
+  font-size: 21px;
+  line-height: 1.5;
   color: var(--muted);
   max-width: 760px;
+  margin: 0 0 8px;
 }
-.slide a {
+
+.drilldown h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 52px 0 12px;
+  padding-left: 14px;
+  border-left: 4px solid var(--cornflower);
+}
+.drilldown h3 {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--cream-light);
+  margin: 32px 0 8px;
+}
+.drilldown p,
+.drilldown li {
+  font-size: 17px;
+  line-height: 1.68;
+  color: var(--cream);
+}
+.drilldown ul,
+.drilldown ol {
+  padding-left: 22px;
+}
+.drilldown li {
+  margin: 6px 0;
+}
+.drilldown a {
   color: var(--cornflower);
   text-decoration: none;
   border-bottom: 1px solid rgba(96, 143, 230, 0.4);
 }
-.slide strong {
+.drilldown strong {
   color: var(--cream-light);
 }
-.kicker {
-  font-family: var(--mono);
-  font-size: 13px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--paprika);
-  margin: 0 0 16px;
+.drilldown hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 44px 0;
 }
 
 /* ─── code ─── */
-.slide code {
+.drilldown code {
   font-family: var(--mono);
   font-size: 0.88em;
   background: rgba(255, 255, 255, 0.06);
@@ -209,7 +315,7 @@ body.authed .apx-progress {
   border-radius: 4px;
   color: var(--amber);
 }
-.slide pre {
+.drilldown pre {
   background: var(--panel);
   border: 1px solid var(--line);
   border-left: 3px solid var(--cornflower);
@@ -218,9 +324,10 @@ body.authed .apx-progress {
   overflow-x: auto;
   font-family: var(--mono);
   font-size: 13.5px;
-  line-height: 1.55;
+  line-height: 1.6;
+  margin: 18px 0;
 }
-.slide pre code {
+.drilldown pre code {
   background: none;
   padding: 0;
   color: var(--cream);
@@ -228,20 +335,20 @@ body.authed .apx-progress {
 }
 
 /* ─── tables ─── */
-.slide table {
+.drilldown table {
   border-collapse: collapse;
   width: 100%;
   font-size: 15px;
-  margin: 16px 0;
+  margin: 20px 0;
 }
-.slide th,
-.slide td {
+.drilldown th,
+.drilldown td {
   text-align: left;
-  padding: 10px 14px;
+  padding: 11px 14px;
   border-bottom: 1px solid var(--line);
   vertical-align: top;
 }
-.slide th {
+.drilldown th {
   color: var(--muted);
   font-weight: 700;
   font-size: 12px;
@@ -254,7 +361,7 @@ body.authed .apx-progress {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 16px;
-  margin: 24px 0;
+  margin: 28px 0;
 }
 .spec-card {
   background: var(--panel);
@@ -272,12 +379,28 @@ body.authed .apx-progress {
 .spec-card.amaranth {
   border-top-color: var(--amaranth);
 }
+.spec-card.cornflower {
+  border-top-color: var(--cornflower);
+}
 .spec-card h3 {
   margin: 0 0 6px;
 }
 .spec-card p {
   font-size: 15px;
   color: var(--muted);
+  margin: 0;
+}
+
+/* ─── callout (crisis-style dark card with colored left border) ─── */
+.callout {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--amber);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 22px 0;
+}
+.callout p {
   margin: 0;
 }
 
@@ -298,46 +421,50 @@ body.authed .apx-progress {
 }
 .pill.amber {
   background: var(--amber);
-  color: #1a1a1a;
+  color: var(--ink);
 }
 .pill.amaranth {
   background: var(--amaranth);
 }
 
-/* ─── auth gate ─── */
+/* ═══ auth gate (deck station-sign, verbatim feel) ═══ */
 #auth-gate {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 50% 40%, #14171c, #07080a 70%);
+  background: radial-gradient(circle at 50% 40%, #14171c, #000 70%);
 }
 body.authed #auth-gate {
   display: none;
 }
 .auth-panel {
-  width: min(420px, 90vw);
+  width: min(440px, 90vw);
   text-align: center;
 }
 .station-sign {
-  background: #000;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 22px 24px;
+  background: var(--ink);
+  border-radius: 14px;
+  padding: 22px 28px 20px;
   margin-bottom: 22px;
+  text-align: left;
+  display: inline-block;
 }
 .station-name {
-  font-size: 22px;
   font-weight: 700;
-  letter-spacing: 0.02em;
-  margin-bottom: 14px;
+  font-size: 32px;
+  color: #fff;
+  line-height: 1.05;
+  letter-spacing: -0.3px;
+  margin: 0;
+  white-space: nowrap;
 }
 .station-bullets {
   display: flex;
-  gap: 10px;
-  justify-content: center;
+  gap: 7px;
+  margin-top: 12px;
 }
 .station-bullet {
   width: 30px;
@@ -347,21 +474,24 @@ body.authed #auth-gate {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 14px;
-  color: #fff;
+  font-size: 16px;
+  line-height: 1;
 }
 .station-bullet.paprika {
   background: var(--paprika);
+  color: #fff;
 }
 .station-bullet.cornflower {
   background: var(--cornflower);
+  color: #fff;
 }
 .station-bullet.amber {
   background: var(--amber);
-  color: #1a1a1a;
+  color: var(--ink);
 }
 .station-bullet.amaranth {
   background: var(--amaranth);
+  color: #fff;
 }
 .auth-note {
   font-size: 13px;
@@ -408,12 +538,12 @@ body.authed #auth-gate {
   min-height: 18px;
 }
 
-/* ─── mobile ─── */
+/* ═══ mobile ═══ */
 @media (max-width: 720px) {
-  .slide {
-    padding: 72px 7vw 84px;
+  .drilldown {
+    padding: 40px 22px 120px;
   }
-  .apx-chapter {
-    display: none;
+  .apx-logo {
+    font-size: 18px;
   }
 }

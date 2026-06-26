@@ -3,7 +3,11 @@
 Encrypted, password-gated internal technical appendix to the [Cyph deck](https://github.com/cypher-nyc/cyph-deck).
 The detail that's too deep for the investor deck. Deployed like the deck
 (static GitHub Pages) but the content is **real-encrypted** — safe on a public
-host because the slides ship only as ciphertext.
+host because it ships only as ciphertext.
+
+Same look & feel as the deck (paprika HUD bars, dark register, station-sign,
+brand palette) — but each **drilldown** is a whitepaper that scrolls to its
+natural height, not a compacted 16:9 slide.
 
 ## How it works
 
@@ -13,7 +17,7 @@ host because the slides ship only as ciphertext.
 - `gate.js` — in-browser: takes the password, derives the key via Web Crypto,
   decrypts `payload.enc.json`, injects the slides. Wrong password → GCM auth
   fails → nothing revealed.
-- `deck.js` — minimal slide engine; auto-discovers every `<section class="slide">`.
+- `deck.js` — drilldown engine; auto-discovers every `<section class="drilldown">`.
 
 ## Author locally (no password, live edits)
 

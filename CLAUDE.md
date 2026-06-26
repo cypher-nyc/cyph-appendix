@@ -32,18 +32,30 @@ tag and reveals nothing.
 
 - `index.html` — shell: chrome + gate UI + empty `#deck-root`.
 - `gate.js` — password gate, Web Crypto decrypt, localhost plaintext bypass.
-- `deck.js` — minimal engine; auto-discovers `<section class="slide">`. No
-  hardcoded slide total to keep in sync (unlike the deck).
-- `styles.css` — dark register, deck palette, tuned for code/tables/spec cards.
+- `deck.js` — drilldown engine; auto-discovers `<section class="drilldown">`.
+  No hardcoded total to keep in sync (unlike the deck).
+- `styles.css` — deck look (paprika HUD bars, dark register, station-sign) over
+  whitepaper documents; tuned for code/tables/spec cards.
 - `build/encrypt.mjs` — the encryptor.
-- `content/slides.html` — plaintext slides (gitignored).
+- `content/slides.html` — plaintext drilldowns (gitignored).
 - `payload.enc.json` — encrypted content (the only content that ships).
 
-## Authoring slides
+## Look & feel (matches cyph-deck)
 
-A slide is `<section class="slide" data-chapter="label">…</section>`. Components
-(see `styles.css`): `.kicker`, `.lede`, `.spec-grid`/`.spec-card[.paprika|
-.cornflower|.amber|.amaranth]`, `.pill`, `<pre><code>`, `<table>`. Palette =
+Same skin as the deck — paprika `#ec4e20` HUD bars top/bottom, `cyph.` Helvetica
+700 logo, lowercase underlined tabs, dark `#0e0e10` station-sign gate, brand
+palette, "content on black / no grey boxes / newspaper" rule — but NOT the
+deck's 16:9 `#game-shell`. Each drilldown is a **whitepaper**: a centered
+~900px column (`--paper`) that flows to its natural height and scrolls, so
+content is never compacted into a slide. Arrow keys / tabs / prev-next switch
+drilldowns; ↑↓ / space / wheel scroll the current document.
+
+## Authoring drilldowns
+
+A drilldown is `<section class="drilldown" data-chapter="label">…</section>`
+(`data-chapter` = its HUD tab + footer title). Components (see `styles.css`):
+`.kicker`, `.lede`, `.spec-grid`/`.spec-card[.paprika|.cornflower|.amber|
+.amaranth]`, `.callout`, `.pill`, `<pre><code>`, `<table>`, `<hr>`. Palette =
 the deck's five brand colors.
 
 ## Deploy target
