@@ -1,0 +1,11 @@
+# Plaintext slide source — NEVER commit. Only payload.enc.json ships.
+content/
+
+# Env & secrets (password lives here locally, never committed)
+.env
+.env.*
+!.env.example
+
+# OS / editor cruft
+.DS_Store
+node_modules/

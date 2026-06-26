@@ -1,0 +1,11 @@
+{
+  "name": "cyph-appendix",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Encrypted, password-gated internal technical appendix to the Cyph deck.",
+  "scripts": {
+    "build": "node build/encrypt.mjs",
+    "serve": "python3 -m http.server 4178"
+  }
+}
