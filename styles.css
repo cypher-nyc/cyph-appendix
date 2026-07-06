@@ -293,6 +293,9 @@ body.authed .apx-progress {
 .drilldown li {
   margin: 6px 0;
 }
+.drilldown li::marker {
+  color: #fff;
+}
 .drilldown a {
   color: var(--cornflower);
   text-decoration: none;
@@ -355,6 +358,89 @@ body.authed .apx-progress {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+}
+
+/* ─── overview contents: numbered rows, academic register ─── */
+.toc {
+  margin: 40px 0 8px;
+  border-top: 1px solid var(--line);
+  font-family: var(--sans);
+}
+.toc-umbrella {
+  margin-top: 72px;
+}
+.toc-row {
+  display: grid;
+  grid-template-columns: 68px 1fr auto;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 6px;
+  border-bottom: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.18s var(--ease-smooth);
+}
+.toc-row:hover {
+  transform: translateX(8px);
+}
+.toc-num {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+}
+.toc-row.paprika .toc-num {
+  color: var(--paprika);
+}
+.toc-row.cornflower .toc-num {
+  color: var(--cornflower);
+}
+.toc-row.cream .toc-num {
+  color: var(--cream);
+}
+.toc-row.amber .toc-num {
+  color: var(--amber);
+}
+/* amaranth is too dark to read as text on black; lift it toward cream */
+.toc-row.amaranth .toc-num {
+  color: color-mix(in srgb, var(--amaranth) 55%, var(--cream));
+}
+.toc-title {
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  color: var(--cream);
+}
+.toc-row:hover .toc-title {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+.toc-row.paprika:hover .toc-title {
+  text-decoration-color: var(--paprika);
+}
+.toc-row.cornflower:hover .toc-title {
+  text-decoration-color: var(--cornflower);
+}
+.toc-row.cream:hover .toc-title {
+  text-decoration-color: var(--cream);
+}
+.toc-row.amber:hover .toc-title {
+  text-decoration-color: var(--amber);
+}
+.toc-row.amaranth:hover .toc-title {
+  text-decoration-color: color-mix(in srgb, var(--amaranth) 55%, var(--cream));
+}
+.toc-icon svg {
+  display: block;
+  width: 38px;
+  height: 38px;
+  opacity: 0.85;
+  transition: opacity 0.18s, transform 0.18s var(--ease-smooth);
+}
+.toc-row:hover .toc-icon svg {
+  opacity: 1;
+  transform: scale(1.08);
 }
 
 /* ─── spec cards / grid ─── */
@@ -475,6 +561,45 @@ a.spec-card:hover {
 .layer-body {
   padding: 20px 24px;
   background: var(--panel);
+}
+.layerstack.with-metrics .layer {
+  grid-template-columns: 156px 1fr 148px;
+}
+.layer-metric {
+  padding: 20px 18px;
+  background: var(--panel);
+  border-left: 1px dashed var(--line);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  text-align: right;
+  gap: 2px;
+}
+.layer-metric .num {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+.layer-metric .lbl {
+  font-size: 12px;
+  color: var(--muted);
+}
+.layer.paprika .layer-metric .num {
+  color: var(--paprika);
+}
+.layer.cornflower .layer-metric .num {
+  color: var(--cornflower);
+}
+.layer.amber .layer-metric .num {
+  color: var(--amber);
+}
+.layer.amaranth .layer-metric .num {
+  color: var(--amaranth);
+}
+.layer.cream .layer-metric .num {
+  color: var(--cream);
 }
 .layer-body h3 {
   margin: 0 0 4px;
@@ -681,6 +806,20 @@ a.spec-card:hover {
   }
   .layer-body {
     padding: 16px 16px;
+  }
+  .layerstack.with-metrics .layer {
+    grid-template-columns: 112px 1fr;
+  }
+  .layer-metric {
+    grid-column: 2;
+    border-left: none;
+    border-top: 1px dashed var(--line);
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    text-align: left;
+    gap: 8px;
+    padding: 10px 16px 16px;
   }
 }
 
@@ -940,6 +1079,322 @@ body.authed #auth-gate {
   font-size: 13px;
   color: var(--paprika);
   min-height: 18px;
+}
+
+/* ─── card3d: the design system's dimensional cyphcard (CSS pendulum,
+   the WebGL-free render of CyphCard3D — same face, same ±16°/6s sway) ─── */
+.card3d-stage {
+  display: flex;
+  justify-content: center;
+  padding: 44px 0 28px;
+  perspective: 760px;
+}
+.card3d {
+  position: relative;
+  width: 384px;
+  height: 242px;
+  transform-style: preserve-3d;
+  animation: card3d-sway 6s ease-in-out infinite;
+}
+@keyframes card3d-sway {
+  0% {
+    transform: rotateY(-16deg) rotateX(4deg);
+  }
+  50% {
+    transform: rotateY(16deg) rotateX(-2deg);
+  }
+  100% {
+    transform: rotateY(-16deg) rotateX(4deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card3d {
+    animation: none;
+    transform: rotateY(-12deg) rotateX(3deg);
+  }
+}
+.c3-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  backface-visibility: hidden;
+}
+.c3-face svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* extrusion: front + back plus darker slab layers between them */
+.c3-front {
+  transform: translateZ(4px);
+}
+/* the USB-A plug on the card's right edge — the CyphCardFlashdrive3D
+   read: strain-relief collar, brushed shroud, dark open end, windows */
+.c3-usb {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  width: 48px;
+  height: 58px;
+  margin-top: -29px;
+  transform: translateZ(0);
+  background: linear-gradient(180deg, #d6dae1, #a7adb7 55%, #c2c7cf);
+  border-radius: 0 4px 4px 0;
+  border-left: 5px solid #1a1a1c;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
+}
+.c3-usb::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 7px;
+  background: #15171b;
+  border-radius: 0 3px 3px 0;
+}
+.c3-usb::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  top: 10px;
+  width: 16px;
+  height: 9px;
+  background: #15171b;
+  border-radius: 1.5px;
+  box-shadow: 0 29px 0 #15171b;
+}
+.c3-back {
+  transform: rotateY(180deg) translateZ(4px);
+}
+.c3-mid {
+  background: #c9a30a;
+  backface-visibility: visible;
+}
+
+/* ─── exploded manufacturing stack ─── */
+.exploded {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  margin: 30px 0 8px;
+  flex-wrap: wrap;
+}
+.exploded-scene {
+  position: relative;
+  flex: 1 1 400px;
+  min-width: 340px;
+  height: 580px;
+  perspective: 1200px;
+}
+.ex-layer {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 340px;
+  height: 214px;
+  margin: -107px 0 0 -170px;
+  border-radius: 21px;
+  transform-style: preserve-3d;
+}
+.ex-top {
+  transform: rotateX(58deg) rotateZ(-38deg) translateZ(170px);
+}
+.ex-pcb {
+  transform: rotateX(58deg) rotateZ(-38deg) translateZ(0);
+  background: #14171c;
+  border: 1px solid #2c313a;
+  box-shadow: inset 0 0 0 6px rgba(96, 143, 230, 0.08);
+}
+.ex-bottom {
+  transform: rotateX(58deg) rotateZ(-38deg) translateZ(-170px);
+}
+.ex-top svg,
+.ex-bottom svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.ex-shadow {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  width: 380px;
+  height: 240px;
+  margin: -60px 0 0 -190px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(0, 0, 0, 0.55), transparent 65%);
+  transform: rotateX(58deg) rotateZ(-38deg) translateZ(-240px);
+}
+/* pcb traces */
+.ex-trace {
+  position: absolute;
+  background: rgba(96, 143, 230, 0.35);
+}
+/* pcb components */
+.ex-comp {
+  position: absolute;
+  border-radius: 3px;
+}
+.ex-esp32 {
+  background: linear-gradient(145deg, #b9bfc9, #8d939e);
+  border: 1px solid #6b7079;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4);
+}
+.ex-esp32::before {
+  /* antenna keep-out */
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 18px;
+  background: repeating-linear-gradient(
+    90deg,
+    #23262c 0 3px,
+    #b9852d 3px 6px
+  );
+  border-radius: 3px 0 0 3px;
+}
+.ex-chip {
+  background: linear-gradient(150deg, #2b2f38, #191c22);
+  border: 1px solid #545a66;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+}
+.ex-chip::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #6a707c;
+}
+.ex-sd {
+  background: linear-gradient(145deg, #aab0ba, #7e848e);
+  border: 1px solid #63676f;
+}
+.ex-sd::after {
+  /* the microSD card peeking out of the socket */
+  content: "";
+  position: absolute;
+  right: -12px;
+  top: 22%;
+  width: 26px;
+  height: 56%;
+  background: #2c2f36;
+  border-radius: 0 4px 4px 0;
+}
+.ex-pad {
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #e8c66a, #b9852d);
+  border: 1px solid #8a6420;
+}
+.ex-usb {
+  background: linear-gradient(180deg, #d6dae1, #a7adb7);
+  border: 1px solid #6b7079;
+  border-radius: 0 4px 4px 0;
+}
+.ex-usb::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 6px;
+  bottom: 6px;
+  width: 6px;
+  background: #15171b;
+}
+/* numbered callout badges — counter-rotated to face the camera */
+.ex-badge {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: #0e0e10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateZ(34px) rotateZ(38deg) rotateX(-58deg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.ex-badge.cornflower {
+  background: var(--cornflower);
+}
+.ex-badge.paprika {
+  background: var(--paprika);
+  color: #fff;
+}
+.ex-badge.amber {
+  background: var(--amber);
+}
+.ex-badge.cream {
+  background: var(--cream);
+}
+.ex-badge.amaranth {
+  background: var(--amaranth);
+  color: var(--cream);
+}
+/* the key alongside the scene */
+.exploded-key {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ex-key-item {
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.ex-key-item .ex-badge {
+  position: static;
+  transform: none;
+  box-shadow: none;
+}
+.ex-key-item h4 {
+  margin: 2px 0 3px;
+  font-size: 15px;
+  color: var(--cream-light);
+}
+.ex-key-item p {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+/* ─── arrows from hardware down into software ─── */
+.hw-sw-arrows {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  margin: 26px 0 0;
+}
+.hw-sw-arrows svg {
+  display: block;
+  width: 22px;
+  height: 58px;
+}
+@media (max-width: 720px) {
+  .card3d {
+    transform-origin: center;
+    scale: 0.72;
+  }
+  .exploded-scene {
+    min-width: 300px;
+    height: 490px;
+    transform: scale(0.82);
+  }
+  .hw-sw-arrows {
+    grid-template-columns: 1fr;
+  }
+  .hw-sw-arrows svg:not(:first-child) {
+    display: none;
+  }
 }
 
 /* ═══ mobile ═══ */

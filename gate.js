@@ -92,7 +92,7 @@
       loadPlaintext()
         .then(mount)
         .catch(function () {
-          showError("no local content/slides.html — create it to author.");
+          showError("no local content/slides.html: create it to author.");
         });
       return;
     }
@@ -122,7 +122,7 @@
           // GCM failure (wrong password) and fetch failure both land here.
           showError(
             String(err && err.message).indexOf("payload") !== -1
-              ? "content unavailable — payload.enc.json missing"
+              ? "content unavailable: payload.enc.json missing"
               : "wrong password"
           );
           input.focus();
