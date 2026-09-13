@@ -1,5 +1,7 @@
 # cyph-appendix
 
+> Read `README.md` first - it is the canonical map of this repo (purpose, layout, who it talks to, run/test). This file holds only Claude-specific rules and incident history.
+
 ## What this is
 
 The **internal** technical appendix to the Cyph pitch deck (`cyph-deck`) — the
@@ -30,15 +32,7 @@ tag and reveals nothing.
 
 ## Files
 
-- `index.html` — shell: chrome + gate UI + empty `#deck-root`.
-- `gate.js` — password gate, Web Crypto decrypt, localhost plaintext bypass.
-- `deck.js` — drilldown engine; auto-discovers `<section class="drilldown">`.
-  No hardcoded total to keep in sync (unlike the deck).
-- `styles.css` — deck look (paprika HUD bars, dark register, station-sign) over
-  whitepaper documents; tuned for code/tables/spec cards.
-- `build/encrypt.mjs` — the encryptor.
-- `content/slides.html` — plaintext drilldowns (gitignored).
-- `payload.enc.json` — encrypted content (the only content that ships).
+The file map lives in `README.md` (Layout).
 
 ## Look & feel (matches cyph-deck)
 
@@ -57,6 +51,10 @@ A drilldown is `<section class="drilldown" data-chapter="label">…</section>`
 `.kicker`, `.lede`, `.spec-grid`/`.spec-card[.paprika|.cornflower|.amber|
 .amaranth]`, `.callout`, `.pill`, `<pre><code>`, `<table>`, `<hr>`. Palette =
 the deck's five brand colors.
+
+## Copy rules
+
+- NO em dashes in copy. User-facing copy is Cash-authored; only make dictated wording changes.
 
 ## Deploy target
 
