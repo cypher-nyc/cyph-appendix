@@ -4,6 +4,12 @@
 
 > **Scope rule (Cash, 2026-09-14): no frontend changes and no copy you were not asked for.** A backend task is backend only. Do not add a surface, a row, a pill, a section, a playground entry, a fixture, a DS component, a type field, or a `include=` param in any frontend (`*-fe`, the design systems, `cyph-internal`, `cyph-appendix`, the decks) to "show" backend work. Do not write, add, or reword user-facing copy (labels, section titles, hover text, empty states, error text) unless Cash dictated the words. If a frontend change looks necessary to make the work useful, say so in one line and stop; Cash decides. This applies to sibling repos too: working in `underground-be` gives no licence to touch `underground-fe` or the DS.
 
+## Scope Discipline
+Implement ONLY what was explicitly requested. Do not add unrequested UI sections, intro summaries, visualizations, fonts, or styling. If you believe an addition would help, list it as a suggestion at the end of your response instead of building it.
+
+## Domain Vocabulary & Design Tokens
+- Always use design-system tokens for color, spacing, and typography. Never hardcode hex values or font families.
+
 ## What this is
 
 The **internal** technical appendix to the Cyph pitch deck (`cyph-deck`) — the
@@ -62,3 +68,9 @@ the deck's five brand colors.
 
 GitHub Pages, repo root, branch `main` — same as `cyph-deck`
 (`cypher-nyc/cyph-deck` → `cypher-nyc.github.io/cyph-deck`).
+
+## Local Dev Ports
+Before starting any server, check the port is free and record every background process you start. At the end of the session, kill ONLY the processes you started — never blanket-kill by port or name, since the user has pre-existing dev servers running. Ports in active use: 8000 (backend), 8002, 8200 (API), 5373 (portal).
+
+## Verification
+After a UI fix, hard-reload with cache disabled before claiming success. If the user reports still seeing the bug, assume it is real and reproduce it rather than attributing it to a stale module cache.

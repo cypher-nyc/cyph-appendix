@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); [ -n \"$f\" ] || exit 0; case \"$f\" in *.ts|*.tsx|*.js|*.jsx|*.json|*.css|*.md) npx --no-install prettier --write \"$f\" >/dev/null 2>&1;; esac; case \"$f\" in *.ts|*.tsx) [ -f tsconfig.json ] && { out=$(npx --no-install tsc --noEmit 2>&1 | head -20); [ -n \"$out\" ] && { echo \"$out\" >&2; exit 2; }; };; esac; exit 0"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "w=''; for p in 8000 8002 8200 5373; do lsof -ti:$p >/dev/null 2>&1 && w=\"$w $p\"; done; [ -n \"$w\" ] && printf '{\"systemMessage\":\"Ports still held:%s - kill only processes YOU started this session\"}' \"$w\"; exit 0"
+          }
+        ]
+      }
+    ]
+  }
+}
