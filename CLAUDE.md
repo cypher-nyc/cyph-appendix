@@ -2,7 +2,7 @@
 
 > Read `README.md` first - it is the canonical map of this repo (purpose, layout, who it talks to, run/test). This file holds only Claude-specific rules and incident history.
 
-> **Scope rule (Cash, 2026-09-14): no frontend changes and no copy you were not asked for.** A backend task is backend only. Do not add a surface, a row, a pill, a section, a playground entry, a fixture, a DS component, a type field, or a `include=` param in any frontend (`*-fe`, the design systems, `cyph-internal`, `cyph-appendix`, the decks) to "show" backend work. Do not write, add, or reword user-facing copy (labels, section titles, hover text, empty states, error text) unless Cash dictated the words. If a frontend change looks necessary to make the work useful, say so in one line and stop; Cash decides. This applies to sibling repos too: working in `underground-be` gives no licence to touch `underground-fe` or the DS.
+A backend task is backend only. Do not add a surface, a row, a pill, a section, a playground entry, a fixture, a DS component, a type field, or a `include=` param in any frontend (`*-fe`, the design systems, `cyph-internal`, `cyph-appendix`, the decks) to "show" backend work. Do not write, add, or reword user-facing copy (labels, section titles, hover text, empty states, error text) unless Cash dictated the words. If a frontend change looks necessary to make the work useful, say so in one line and stop; Cash decides. This applies to sibling repos too: working in `underground-be` gives no licence to touch `underground-fe` or the DS.
 
 ## Scope Discipline
 Implement ONLY what was explicitly requested. Do not add unrequested UI sections, intro summaries, visualizations, fonts, or styling. If you believe an addition would help, list it as a suggestion at the end of your response instead of building it.
@@ -12,11 +12,7 @@ Implement ONLY what was explicitly requested. Do not add unrequested UI sections
 
 ## What this is
 
-The **internal** technical appendix to the Cyph pitch deck (`cyph-deck`) — the
-detail too deep/technical for investors but useful for a technical audience.
-Deployed like the deck (static GitHub Pages) but content is **real-encrypted**,
-so it's safe on a public host.
-
+The **internal** technical appendix to Cyph.
 ## Security model (important)
 
 This is NOT the deck's soft email gate. Content ships only as AES-256-GCM
@@ -41,24 +37,6 @@ tag and reveals nothing.
 ## Files
 
 The file map lives in `README.md` (Layout).
-
-## Look & feel (matches cyph-deck)
-
-Same skin as the deck — paprika `#ec4e20` HUD bars top/bottom, `cyph.` Helvetica
-700 logo, lowercase underlined tabs, dark `#0e0e10` station-sign gate, brand
-palette, "content on black / no grey boxes / newspaper" rule — but NOT the
-deck's 16:9 `#game-shell`. Each drilldown is a **whitepaper**: a centered
-~900px column (`--paper`) that flows to its natural height and scrolls, so
-content is never compacted into a slide. Arrow keys / tabs / prev-next switch
-drilldowns; ↑↓ / space / wheel scroll the current document.
-
-## Authoring drilldowns
-
-A drilldown is `<section class="drilldown" data-chapter="label">…</section>`
-(`data-chapter` = its HUD tab + footer title). Components (see `styles.css`):
-`.kicker`, `.lede`, `.spec-grid`/`.spec-card[.paprika|.cornflower|.amber|
-.amaranth]`, `.callout`, `.pill`, `<pre><code>`, `<table>`, `<hr>`. Palette =
-the deck's five brand colors.
 
 ## Copy rules
 
