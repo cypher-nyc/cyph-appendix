@@ -10,3 +10,15 @@ content/
 .DS_Store
 node_modules/
 .claude/settings.local.json
+
+# Secrets: never commit an env file or a backup of one. Templates stay.
+.env
+.env.*
+*.env
+*.bak
+*.bak-*
+*.bak.*
+!.env.example
+!.env.sample
+!.env.template
+!.env.*.example
